@@ -1,0 +1,85 @@
+const { first } = require('lodash')
+
+const { readFile, writeFile } = require('fs').promises
+
+// const getFile = (data)=>{
+
+//     return new Promise((resolve, reject)=>{
+
+//         readFile(data, 'utf8',(err, result)=>{
+
+//             if(err){
+//                 reject(err)
+//             }
+//             resolve(result)
+//         })
+//     })
+
+// }
+
+
+// getFile('./testpath/subpath/test.txt')
+// .then((result)=>console.log(result))
+// .catch((err)=>console.log(err))
+
+// const getFile2 = (file2)=>{
+
+//     return new Promise((resolve, reject)=>{
+
+//         readFile(file2,'utf8',(err, result)=>{
+
+//             if(err){
+//                 reject(err)
+//             }
+
+//             resolve(result)
+
+//         })
+
+//     })
+
+// }
+
+// getFile2('./testpath/test2.txt')
+// .then((result)=>console.log(result))
+// .catch((err)=> console.log(err))
+
+// getFile3 = (file3)=>{
+    
+//     return new Promise((resolve, reject)=>{
+
+//         readFile(file3, 'utf8', (err, result)=>{
+
+//             if(err){
+//                 reject(err)
+//             }
+
+//             resolve(result)
+
+//         })
+
+//     })
+// }
+
+// getFile3('./testpath/test2-result.txt')
+// .then((result)=>console.log(result))
+// .catch((err)=>console.log(err))
+
+// pattern 2 
+const start = async ()=>{
+
+    try{
+        const first = await readFile('./testpath/subpath/test.txt')
+        const second = await readFile('./testpath/test-result.txt')
+
+        await writeFile('./testpath/test4-result.txt', `Testing writeFile Promise: ${first}, ${second}`)
+        console.log(first, second)
+
+
+    }catch(err){
+
+        console.log(err)
+    }
+}
+
+start()
