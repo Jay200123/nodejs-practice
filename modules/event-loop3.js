@@ -9,7 +9,7 @@ const events = ()=>{
     
             if(err){
                 reject(err)
-            }
+            } 
         
             resolve(res)
         })

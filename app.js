@@ -42,25 +42,19 @@
 
 // const file = require('./utils/async-file')
 
+const connect = require('./server')
+console.log(connect)
+
 // const connect = require('./server')
-// const connect = require('./server')
-// const con = require('./mysql')
+
 // console.log(con)
 
-// const connect = con.connect(function(err, res){
+// const sql = require('./mysql')
+// console.log(sql)
 
-//     if(err){
-//       console.log(err)
-//       console.log('Error cant connect to the database')
-//     }
-  
-//     console.log(res)
-//     console.log('Connected to MySQL Server')
-  
-//   })
 
-//   const students = require('./modules/event-loop')
-//   console.log(students)
+  // const students = require('./modules/event-loop')
+  // console.log(students)
 
 // const items = require('./modules/event-loop2')
 // console.log(items)
@@ -83,5 +77,8 @@
 // const eventHandler = require('./modules/event-emitter')
 // console.log(eventHandler)
 
-const server = require('./modules/request-event')
-console.log(server)
+// const server = require('./modules/request-event')
+// console.log(server)
+
+// const users = require('./modules/eventloop4')
+// console.log(users)
