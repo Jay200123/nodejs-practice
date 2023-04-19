@@ -41,32 +41,6 @@ route.get('/about', (req, res)=>{
 //     })
 // })
 
-route.get('/api/products/idlace', async(req, res)=>{
-
-    try{
-
-        const data = await new Promise((resolve, reject)=>{
-            
-            const sql = "SELECT * FROM products WHERE description='ID Lace' "
-
-            con.query(sql, (err, result)=>{
-                
-                if(err){
-                    reject(err)
-                }else{
-                    resolve(result)
-                }
-            })
-        })
-
-        res.status(200).json(data)
-
-    }catch(err){
-        console.log(err)
-        res.status(500).json(err)
-
-    }
-})
 
 route.get('/api/products', async(req, res)=>{
 
@@ -93,22 +67,41 @@ route.get('/api/products', async(req, res)=>{
     }
 })
 
-route.get('/api/products/:id', (req, res)=>{
 
-        const productId = req.params.id
-        const sql = "SELECT * FROM products WHERE product_id = ?"
-        
-        con.query(sql, [productId],(err, result)=>{
+
+route.get('/api/products/:id', async (req, res)=>{
+
+    try{
+
+        const data = await new Promise((resolve, reject)=>{
+
+            const productId = req.params.id
             
-            if(err){
-                console.log(err)
-                res.status(500).json(err)
-            }else{
-                res.status(201).send(result)
-            }
+            const sql = "SELECT * FROM products WHERE product_id = ?";
+
+            con.query(sql, [productId], (err, result)=>{
+
+                if(err){
+                    reject(err)
+                }else{
+                    resolve(result)
+                }
+
+            })
+
         })
 
+        res.status(201).json(data)
+    }catch(err){
+        console.log(err)
+        res.status(500).json(err);
+
+    }
 })
+
+
+
+
 
     //fetch all data from users
 route.get('/api/users', (req, res)=>{
@@ -126,7 +119,37 @@ route.get('/api/users', (req, res)=>{
             }
 
         })
-    })
+    });
+
+    route.get('/api/users/:id', async(req, res)=>{
+
+        try{
+
+            const data = await new Promise((resolve, reject)=>{
+
+                const userId = req.params.id;
+                const sql = "SELECT * FROM users WHERE id = ?";
+
+                con.query(sql, [userId],(err, result)=>{
+
+                    if(err){
+                        reject(err)
+                    }else{
+                        resolve(result)
+                    }
+
+                })
+
+            })
+
+            res.status(201).json(data);
+
+        }catch(err){
+
+            console.log(err)
+            res.status(500).json(err)
+        }
+    });
 
 //fetch all data from students and uses promise function
 route.get('/api/students', async (req, res)=>{
