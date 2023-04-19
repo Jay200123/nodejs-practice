@@ -1,155 +1,278 @@
 const express = require('express');
-const app = express();
-require('dotenv').config()
 const con = require('./mysql');
 const { resolve } = require('path');
-const { reject } = require('lodash');
+const { reject, result } = require('lodash');
 const { error } = require('console');
+require('dotenv').config()
 
-app.get('/', (req, res)=>{
+const route = express();
+
+route.get('/', (req, res)=>{
+
+    const data = {message: "Congratulations... the route variable is working!!!"}
+    res.json(data);
+
+})
+
+route.get('/router', (req, res)=>{
     const data = {message: "Welcome to Our Home Page!!!"}
     res.json(data);
 })
 
-app.get('/about', (req, res)=>{
-    
+route.get('/about', (req, res)=>{
+        
     const about = {message: "About Our Page"}
     res.json(about)
 })
 
-//fetch all data from users
-app.get('/api/users', (req, res)=>{
+// route.get('/api/products2', (req, res)=>{
+
+//     const sql = "SELECT * FROM products";
+
+//     con.query(sql, (err, result)=>{
+
+//         if(err){
+//             console.log(err)
+//             res.status(500).json(err)
+//         }else{
+//             res.status(200).json(result)
+//         }
+
+//     })
+// })
+
+route.get('/api/products/idlace', async(req, res)=>{
+
+    try{
+
+        const data = await new Promise((resolve, reject)=>{
+            
+            const sql = "SELECT * FROM products WHERE description='ID Lace' "
+
+            con.query(sql, (err, result)=>{
+                
+                if(err){
+                    reject(err)
+                }else{
+                    resolve(result)
+                }
+            })
+        })
+
+        res.status(200).json(data)
+
+    }catch(err){
+        console.log(err)
+        res.status(500).json(err)
+
+    }
+})
+
+route.get('/api/products', async(req, res)=>{
+
+    try{
+
+        const data = await new Promise((resolve, reject)=>{
+        const sql = "SELECT * FROM products";
+
+        con.query(sql, (err, result)=>{
+            
+            if(err){
+                reject(err)
+            }else{
+                resolve(result)
+            }
+        })
+        })
+
+        res.status(200).json(data)
+    }catch(err){
+        console.log(err)
+        res.status(500).json(err)
+
+    }
+})
+
+route.get('/api/products/:id', (req, res)=>{
+
+        const productId = req.params.id
+        const sql = "SELECT * FROM products WHERE product_id = ?"
+        
+        con.query(sql, [productId],(err, result)=>{
+            
+            if(err){
+                console.log(err)
+                res.status(500).json(err)
+            }else{
+                res.status(201).send(result)
+            }
+        })
+
+})
+
+    //fetch all data from users
+route.get('/api/users', (req, res)=>{
 
     const users = "SELECT * FROM users";
 
     con.query(users, (err, result)=>{
+
         if(err){
             console.log(err)
-           res.status(500).send('Error in Fetching Users Data' + err)
-           return;
-        }
+            res.status(500).send(err)
 
-        res.send(result)
+        }else{
+            res.status(200).json(result)
+            }
 
-    })
-})
-
-//fetch all data from products
-app.get('/api/products', async(req, res)=>{
-    
-    try{
-
-        const query = 'SELECT * FROM products';
-
-        const result = await new Promise((resolve, reject)=>{
-
-            con.query(query, (err, result)=>{
-                
-                if(err){
-                    reject(err)
-                }
-                resolve(result)
-            })
         })
+    })
 
-        res.status(200).send(result)
-
-    }catch{
-        console.log(err)
-        res.status(500).send(`Query Error Data ${err}`)
-
-    }
-
-})
-
-//fetches all data from student table
-app.get('/api/students', async(req, res)=>{
+//fetch all data from students and uses promise function
+route.get('/api/students', async (req, res)=>{
 
     try{
-        
+
+        const results = await new Promise((resolve, reject)=>{
+
         const query = "SELECT * FROM students";
-
-        const result = await new Promise((resolve, reject)=>{
-
-            con.query(query, (err, result)=>{
-
-                if(err){
-                    reject(err)
-                }
-
+        con.query(query, (err, result)=>{
+                
+            if(err){
+                reject(err)
+            }else{
                 resolve(result)
-
-            })
-
+            }
         })
-        res.status(200).send(result)
-    }catch{
+    })
 
+    res.status(200).send(results)
+
+     }catch(err){
         console.log(err)
         res.status(500).send(err)
-
     }
+
 })
 
-//fetch all records from officers
-app.get('/api/officers', (req, res)=>{
+//service cost 
+route.get('/api/sum', (req, res)=>{
 
-    const officer = 'SELECT * FROM users WHERE role="officer" '
+    const sum = "SELECT SUM(cost) FROM serviceinfo";
 
-    con.query(officer, (err, result)=>{
+    con.query(sum, (err, result)=>{
 
         if(err){
             console.log(err)
-            res.status(500).send(`Error in Finding Officers Data, Data ${err}`)
+            res.status(500).send(err)
+        }else{
+            res.status(200).json(result)
         }
 
-        res.status(200).send(result)
     })
-});
-
-//async function with Promise
-app.get('/api/city', async (req, res)=>{
-
-    try{
-        const query = 'SELECT * FROM students WHERE city="Taguig City" ';
-
-        const result = await new Promise((resolve, reject)=>{    
-            con.query(query, (err, result)=>{
-
-                if(err){
-                    reject(err)
-                }
-                resolve(result)
-
-            })
-        })
-        res.status(200).send(result)
-    }catch{
-        console.log(err)
-        res.status(500).send(err)
-
-    }
 })
 
+//membership query 
+route.get('/api/sum2', (req, res)=>{
 
-const port = process.env.PORT
-app.listen(port, ()=>
- console.log(`Listening on PORT ${port}...`)
- );
+// const sum2 = "SELECT SUM(amount) FROM statusline";
+const sum2 = 'SELECT SUM(amount) FROM statusline INNER JOIN membershipinfo ON statusline.info_id = membershipinfo.info_id WHERE membershipinfo.status="paid" '
 
-// const server = http.createServer((req, res)=>{
+    con.query(sum2, (err, result)=>{
+        
+        if(err){
+        console.log(err)
+        res.status(500).json(err)
+        }else{
+            res.status(200).json(result)
+        }
+    })
+})
 
-//     console.log("processing event")
-//     res.end("Hello World!")
-// });
+route.get('/api/sum3', (req, res)=>{
 
-// const port = process.env.PORT
-// server.listen(port, ()=>{
-// console.log('Server Listening on Port 4000....');
+ const sum3 = 'SELECT SUM(price) FROM products INNER JOIN orderline ON products.product_id = orderline.product_id INNER JOIN orderinfo ON orderline.orderinfo_id = orderinfo.id WHERE orderinfo.status="Finished" '
 
-// });
+    con.query(sum3, (err, result)=>{
+        
+        if(err){
+            console.log(err)
+            res.status(500).json(err)
+        }else{  
+            res.status(200).json(result)
+        }
+    })
+})
+
+route.get('/api/sum4', (req, res)=>{
+
+const sum4 = 'SELECT SUM(price) FROM products INNER JOIN orderline ON products.product_id = orderline.product_id INNER JOIN orderinfo ON orderline.orderinfo_id = orderinfo.id WHERE orderinfo.status="processing" '
+
+    con.query(sum4, (err, result)=>{
+
+        if(err){
+            console.log(err)
+            res.status(500).json(err)
+        }else{
+            res.status(200).json(result)
+        }
+    })
+
+
+})
+
+route.get('/api/sum5', (req,res)=>{
+
+    const sum5 = 'SELECT SUM(price) FROM products INNER JOIN orderline ON products.product_id = orderline.product_id INNER JOIN orderinfo ON orderline.orderinfo_id = orderinfo.id WHERE products.description="Tech Shirt - Small" '
+
+    con.query(sum5, (err, result)=>{
+
+        if(err){
+
+            console.log(err)
+            res.status(200).json(err)
+
+            }else{
+                res.status(200).json(result)
+
+            }
+    })
+    })
+
+route.get('/api/quantity1', (req, res)=>{
+
+
+const sql = "SELECT COUNT(orderline.product_id) FROM orderline INNER JOIN products ON orderline.product_id = products.product_id WHERE products.description = 'Tech Shirt - Small' "
+        con.query(sql, (err, result)=>{
+
+            if(err){
+                console.log(err)
+                res.status(500).json(err)
+            }else{
+                
+                res.status(200).json(result)
+            }
+        })
+    })
+
+    const port = process.env.PORT
+    route.listen(port, ()=>
+    console.log(`Listening on PORT ${port}...`)
+    );
+
+    // const server = http.createServer((req, res)=>{
+
+    //     console.log("processing event")
+    //     res.end("Hello World!")
+    // });
+
+    // const port = process.env.PORT
+    // server.listen(port, ()=>{
+    // console.log('Server Listening on Port 4000....');
+
+    // });
 
 
 
-// module.exports = server;
+    // module.exports = server;
 
