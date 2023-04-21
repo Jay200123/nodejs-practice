@@ -42,8 +42,8 @@
 
 // const file = require('./utils/async-file')
 
-const connect = require('./server')
-console.log(connect)
+// const connect = require('./server')
+// console.log(connect)
 
 // const connect = require('./server')
 
@@ -82,3 +82,36 @@ console.log(connect)
 
 // const users = require('./modules/eventloop4')
 // console.log(users)
+
+// const file1 = require('./bigfiles/bigfile1');
+// console.log(file1);
+
+
+// const file2 = require('./bigfiles/bigfile2');
+// console.log(file2);
+
+// const { createReadStream } = require('fs')
+
+// const stream = createReadStream('./testpath/bigfile2.txt');
+
+// stream.on('data', (result)=>{
+//   console.log(result);
+//   })
+
+// const file3 = require('./bigfiles/bigfile3');
+// console.log(file3);
+
+const { createReadStream } = require('fs');
+
+const stream3 = createReadStream('./testpath/bigfile3.txt');
+
+stream3.on('data', (err, result)=>{
+  
+  if(err){
+    console.log(err)
+    }else{
+      console.log(result);
+    }
+
+});
+

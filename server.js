@@ -1,8 +1,5 @@
 const express = require('express');
 const con = require('./mysql');
-const { resolve } = require('path');
-const { reject, result } = require('lodash');
-const { error } = require('console');
 require('dotenv').config()
 
 const route = express();
@@ -98,10 +95,6 @@ route.get('/api/products/:id', async (req, res)=>{
 
     }
 })
-
-
-
-
 
     //fetch all data from users
 route.get('/api/users', (req, res)=>{
