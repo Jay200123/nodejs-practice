@@ -1,5 +1,7 @@
 const express = require('express');
 const con = require('./mysql');
+const { resolve } = require('path');
+const { reject } = require('lodash');
 require('dotenv').config()
 
 const route = express();
@@ -170,6 +172,66 @@ route.get('/api/students', async (req, res)=>{
     }
 
 })
+
+route.get('/api/services', async (req, res)=>{
+
+    try{
+
+        const service = await new Promise((resolve, reject)=>{
+            
+            const sql = "SELECT * FROM serviceinfo";
+
+            con.query(sql, (err, result)=>{
+
+                if(err){
+                    reject(err);
+                }else{
+                    resolve(result);
+                    }
+            });
+        });
+
+        res.status(200).json(service);
+
+    }catch(err){
+        console.log(err);
+        res.status(500).json(err);
+
+    }
+
+});
+
+route.get('/api/services/:id', async (req, res)=>{
+
+    try{
+
+    const getService = await new Promise((resolve, reject)=>{
+
+    const serviceId = req.params.id;
+    const sql = "SELECT * FROM serviceinfo WHERE service_id = ?";  
+        
+    con.query(sql, [serviceId], (err, result)=>{
+
+        if(err){
+            reject(err);
+        }else{
+            resolve(result);
+        }
+
+        });
+
+    });
+
+    res.status(200).json(getService);
+    
+    }catch(err){
+        
+        console.log(err);
+        res.status(500).json(err);
+    }
+
+
+    });
 
 //service cost 
 route.get('/api/sum', (req, res)=>{

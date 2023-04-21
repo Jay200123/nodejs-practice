@@ -101,17 +101,19 @@
 // const file3 = require('./bigfiles/bigfile3');
 // console.log(file3);
 
-const { createReadStream } = require('fs');
+// const { createReadStream } = require('fs');
 
-const stream3 = createReadStream('./testpath/bigfile3.txt');
+// const stream3 = createReadStream('./testpath/bigfile3.txt');
 
-stream3.on('data', (err, result)=>{
+// stream3.on('data', (err, result)=>{
   
-  if(err){
-    console.log(err)
-    }else{
-      console.log(result);
-    }
+//   if(err){
+//     console.log(err)
+//     }else{
+//       console.log(result);
+//     }
 
-});
+// });
 
+const server = require('./server');
+console.log(server);
