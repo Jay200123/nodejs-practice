@@ -12,11 +12,9 @@ var con = mysql.createConnection({
 con.connect(function(err, res){
 
   if(err){
-    console.log(err)
+    console.log(err);
     console.log('Error cant connect to the database')
   }else{
-
-    console.log(res)
     console.log('Connected to MySQL Server')
 
   }

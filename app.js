@@ -115,5 +115,5 @@
 
 // });
 
-const server = require('./server');
-console.log(server);
+const app = require('./server');
+console.log(app);
