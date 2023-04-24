@@ -25,7 +25,7 @@ const getProducts = async (req, res)=>{
     }catch(err){
         res.status(500).json(err);
     }
-}
+}//end for getProducts
 
 const getOneProducts = async(req, res)=>{
 
@@ -51,7 +51,7 @@ const getOneProducts = async(req, res)=>{
         console.log(err);
         res.status(500).json(err);
     }
-}
+}//end for getOneProducts
 
 const DeleteOneProduct = async(req, res)=>{
 
@@ -76,7 +76,7 @@ const DeleteOneProduct = async(req, res)=>{
         console.log(err);
         res.status(500).json(err);
     }
-}
+}//end for DeleteOneProducts
 
-module.exports = {getProducts, getOneProducts, DeleteOneProduct};
+module.exports = {getProducts, getOneProducts, DeleteOneProduct };
 
