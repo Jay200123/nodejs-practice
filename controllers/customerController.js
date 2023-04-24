@@ -1,6 +1,4 @@
-const { resolve } = require('path');
-const con = require('../mysql');
-const { reject } = require('lodash');
+const con = require('../database/mysql');
 
 const getAllCustomers = async(req, res)=>{
 
@@ -25,7 +23,7 @@ const getAllCustomers = async(req, res)=>{
         console.log(err);
         res.status(500).json(err);
     }
-};
+};//end for getAllCustomer
 
 const getOneCustomer = async(req, res)=>{
 
@@ -51,7 +49,7 @@ const getOneCustomer = async(req, res)=>{
         res.status(500).json(err);
 
     }
-}
+};//end for getOneCustomer
 
 const DeleteOneCustomer = async(req, res)=>{
 
@@ -76,6 +74,6 @@ const DeleteOneCustomer = async(req, res)=>{
         console.log(err);
         res.status(500).json(err);
     }
-};
+};//end for DeleteOneCustomer
 
 module.exports = { getAllCustomers, getOneCustomer, DeleteOneCustomer };

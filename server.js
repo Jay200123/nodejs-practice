@@ -10,8 +10,10 @@ app.use('/api/v1', products);
 const customers = require('./routes/customers');
 app.use('/api/v1', customers);
 
-const port = process.env.PORT;
+const employees = require('./routes/employees');
+app.use('/api/v1', employees);
 
+const port = process.env.PORT;
 app.listen(port, ()=>{
     console.log(`Listening on PORT ${port}...`);
 });

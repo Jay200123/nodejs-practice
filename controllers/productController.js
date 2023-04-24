@@ -1,5 +1,5 @@
 const { resolve } = require('path');
-const con = require('../mysql');
+const con = require('../database/mysql');
 const { reject } = require('lodash');
 
 
