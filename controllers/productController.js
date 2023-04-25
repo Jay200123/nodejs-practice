@@ -27,6 +27,33 @@ const getProducts = async (req, res)=>{
     }
 }//end for getProducts
 
+const storeProduct = async(req, res)=>{
+
+    try{
+
+        const sql = "INSERT INTO products(description, cost_price, sell_price, product_image) VALUES (?, ?, ?, ?)";
+        const body = {description, cost_price, sell_price, product_image } = req.body;
+        const values = [description, cost_price, sell_price, product_image ];
+
+        const data = await new Promise((resolve, reject)=>{
+
+            con.query(sql, values,(err, result)=>{
+
+                if(err){
+                    reject(err);
+                }else{
+                    resolve(result);
+                }
+            });
+        });//end of promise
+        
+        res.status(200).json(data);
+    }catch(err){
+        console.log(err);
+        res.status(500).json(err);
+    }
+}
+
 const getOneProducts = async(req, res)=>{
 
     try{
@@ -78,5 +105,5 @@ const DeleteOneProduct = async(req, res)=>{
     }
 }//end for DeleteOneProducts
 
-module.exports = {getProducts, getOneProducts, DeleteOneProduct };
+module.exports = {getProducts, getOneProducts, DeleteOneProduct, storeProduct };
 

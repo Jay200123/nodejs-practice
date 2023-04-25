@@ -3,6 +3,7 @@ const app = express();
 require('dotenv').config();
 
 app.use(express.json());
+app.use(express.urlencoded({ extended:true })); //enables parsing of URL-encoded request bodies in your application.
 
 const products = require('./routes/products');
 app.use('/api/v1', products);
