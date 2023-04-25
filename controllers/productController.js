@@ -34,9 +34,9 @@ const storeProduct = async(req, res)=>{
         const data = await new Promise((resolve, reject)=>{
 
             const sql = "INSERT INTO products(description, cost_price, sell_price, product_image) VALUES (?, ?, ?, ?)";
-            
-            const { description, cost_price, sell_price, product_image } = req.body
-            const values = [description, cost_price, sell_price, product_image ];
+
+            const { description, cost_price, sell_price, product_image } = req.body //destructures to extract the exact value to be inserted
+            const values = [description, cost_price, sell_price, product_image ]; // contains the value from the destructured req.body
 
             con.query(sql, values,(err, result)=>{
 

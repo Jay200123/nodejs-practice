@@ -35,8 +35,8 @@ const storeCustomer = async(req, res)=>{
 
             const sql = "INSERT INTO customers(fname, lname, phone, address, city, customer_image, user_id) VALUES (?,?,?,?,?,?,?)";
 
-            const { fname, lname, phone, address, city, customer_image, user_id } = req.body;
-            const values = [ fname, lname, phone, address, city, customer_image, user_id ];
+            const { fname, lname, phone, address, city, customer_image, user_id } = req.body; //uses destructure to extract the exact value from the req.body
+            const values = [ fname, lname, phone, address, city, customer_image, user_id ]; //contains values from the destructured values from the req.body
             
             con.query(sql, values,(err, result)=>{
 
@@ -52,7 +52,8 @@ const storeCustomer = async(req, res)=>{
         console.log(err);
         res.status(500).json(err);
     }
-}
+};
+
 const getOneCustomer = async(req, res)=>{
 
     try{
