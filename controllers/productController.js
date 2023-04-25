@@ -31,11 +31,12 @@ const storeProduct = async(req, res)=>{
 
     try{
 
-        const sql = "INSERT INTO products(description, cost_price, sell_price, product_image) VALUES (?, ?, ?, ?)";
-        const body = {description, cost_price, sell_price, product_image } = req.body;
-        const values = [description, cost_price, sell_price, product_image ];
-
         const data = await new Promise((resolve, reject)=>{
+
+            const sql = "INSERT INTO products(description, cost_price, sell_price, product_image) VALUES (?, ?, ?, ?)";
+            
+            const { description, cost_price, sell_price, product_image } = req.body
+            const values = [description, cost_price, sell_price, product_image ];
 
             con.query(sql, values,(err, result)=>{
 
